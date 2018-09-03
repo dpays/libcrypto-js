@@ -21,7 +21,7 @@ test('crypto.generateKeys', function(t) {
   var testHash = new Uint8Array(32).buffer; // 32 0s
   var keys = crypto.generateKeys();
 
-  t.equal(keys.public.slice(0, 3), 'STM', 'generated public key is in steem format');
+  t.equal(keys.public.slice(0, 3), 'DWB', 'generated public key is in dPay format');
 
   var sec = crypto.PrivateKey.from(keys.private);
   var pub = crypto.PublicKey.from(keys.public);
@@ -45,10 +45,10 @@ test('crypto.keysFromPassword', function(t) {
   ];
 
   var publicKeys = [
-    ['owner', 'STM5pZ15FDVAvNKW3saTJchWmSSmYtEvA6aKiXwDtCq2JRZV9KtR9'],
-    ['memo', 'STM5nwJgD9jmkAdTXuiz3jqrkw3om95gCapZo4e4Bcp3qzyiedwCn'],
-    ['active', 'STM5SKxjN1YdrFLgoPcp9KteUmNVdgE8DpTPC9sF6jbjVqP9d2Utq'],
-    ['posting', 'STM6gZmazY23TEMkxmPpnmvbAgWFAzwtaSDbhSUdmpTXzoJJLPFH4']
+    ['owner', 'DWB5pZ15FDVAvNKW3saTJchWmSSmYtEvA6aKiXwDtCq2JRZV9KtR9'],
+    ['memo', 'DWB5nwJgD9jmkAdTXuiz3jqrkw3om95gCapZo4e4Bcp3qzyiedwCn'],
+    ['active', 'DWB5SKxjN1YdrFLgoPcp9KteUmNVdgE8DpTPC9sF6jbjVqP9d2Utq'],
+    ['posting', 'DWB6gZmazY23TEMkxmPpnmvbAgWFAzwtaSDbhSUdmpTXzoJJLPFH4']
   ];
 
   var keys = crypto.keysFromPassword('username', 'password');
@@ -71,10 +71,10 @@ test('crypto.PrivateKey', function(t) {
 
   t.equal(
     pub.toString(),
-    'STM5SKxjN1YdrFLgoPcp9KteUmNVdgE8DpTPC9sF6jbjVqP9d2Utq',
+    'DWB5SKxjN1YdrFLgoPcp9KteUmNVdgE8DpTPC9sF6jbjVqP9d2Utq',
     'regenerates public key correctly'
   );
-  
+
   var emptySha = crypto.sha256(new Uint8Array().buffer);
 
   var sig = priv.sign(emptySha);
@@ -86,7 +86,7 @@ test('crypto.PrivateKey', function(t) {
 
 test('crypto.PublicKey', function(t) {
   var priv = crypto.PrivateKey.from('5JamTPvZyQsHf8c2pbN92F1gUY3sJkpW3ZJFzdmfbAJPAXT5aw3');
-  var pub = crypto.PublicKey.from('STM5SKxjN1YdrFLgoPcp9KteUmNVdgE8DpTPC9sF6jbjVqP9d2Utq');
+  var pub = crypto.PublicKey.from('DWB5SKxjN1YdrFLgoPcp9KteUmNVdgE8DpTPC9sF6jbjVqP9d2Utq');
 
   var failures = [];
   for (var i = 0; i < 64; i++) {
@@ -105,7 +105,7 @@ test('crypto.PublicKey', function(t) {
     t.comment('failed hash: ' + hex(hash));
     t.comment('failed sig: ' + hex(sig));
   });
-    
+
   t.end();
 });
 

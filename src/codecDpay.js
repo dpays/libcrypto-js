@@ -1,10 +1,10 @@
 /* global sjcl */
-sjcl.codec.steemit = {
+sjcl.codec.dpay = {
   ROLES: ['owner', 'memo', 'active', 'posting'],
   MAINNET: {
     pubHeader: 0x0,
     privHeader: 0x80,
-    pubPrefix: 'STM'
+    pubPrefix: 'DWB'
   },
   TESTNET: {
     pubHeader: 0x0,
@@ -18,8 +18,8 @@ sjcl.codec.steemit = {
   keysFromPassword: function(account, password) {
     var keyPairs = {};
     var CURVE = sjcl.ecc.curves.k256;
-    for (var i = 0; i < sjcl.codec.steemit.ROLES.length; i++) {
-      var role = sjcl.codec.steemit.ROLES[i];
+    for (var i = 0; i < sjcl.codec.dpay.ROLES.length; i++) {
+      var role = sjcl.codec.dpay.ROLES[i];
       var seed = account + role + password;
       var secret = sjcl.bn.fromBits(
         sjcl.hash.sha256.hash(sjcl.codec.utf8String.toBits(seed))
@@ -45,7 +45,7 @@ sjcl.codec.steemit = {
      * key that produced the signature is canonically a "compressed" public key (i.e. known by only
      * its X coordinate).
      *
-     * note that in the Steem blockchain, all public keys are canonically compressed and therefore the
+     * note that in the dPay blockchain, all public keys are canonically compressed and therefore the
      * recovery parameter will always be between 31 and 34. therefore only case "b" applies here.
      *
      * after the subtraction, you will get a number between 0 and 4. this number, i, encodes the parity
@@ -76,7 +76,7 @@ sjcl.codec.steemit = {
       if (fixedKForTesting) {
         fixedKForTesting = fixedKForTesting.add(1);
       }
-      
+
       if (R.isIdentity) {
         continue;
       }
@@ -90,7 +90,7 @@ sjcl.codec.steemit = {
         if (isOdd) {
           recoveryParam++;
         }
-   
+
         var rBitArray = r.toBits(l);
         var sBitArray = s.toBits(l);
 
@@ -98,13 +98,13 @@ sjcl.codec.steemit = {
         var r1 = sjcl.bitArray.extract(rBitArray, 8, 8);
         var s0 = sjcl.bitArray.extract(sBitArray, 0, 8);
         var s1 = sjcl.bitArray.extract(sBitArray, 8, 8);
-            
+
         if (!(r0 & 0x80)
           && !(r0 == 0 && !(r1 & 0x80))
           && !(s0 & 0x80)
           && !(s0 == 0 && !(s1 & 0x80))) {
           var rawSig = sjcl.bitArray.concat(r.toBits(l), s.toBits(l));
-      
+
           return sjcl.bitArray.concat(
             [sjcl.bitArray.partial(8, recoveryParam)],
             rawSig
@@ -132,7 +132,7 @@ sjcl.codec.steemit = {
     for (var j = 0; j <= 1; j++) {
       var x = r.add(n.mul(j));
 
-      var y = sjcl.codec.steemit._yFromX(x, hasOddParity);
+      var y = sjcl.codec.dpay._yFromX(x, hasOddParity);
       var p = new sjcl.ecc.point(CURVE, x, y);
 
       var rInv = r.inverseMod(n);
@@ -150,7 +150,7 @@ sjcl.codec.steemit = {
   },
 
   serializePublicKey: function(key, net) {
-    net = net || sjcl.codec.steemit.MAINNET;
+    net = net || sjcl.codec.dpay.MAINNET;
 
     var point = key.get();
     var header = net.pubHeader;
@@ -166,13 +166,13 @@ sjcl.codec.steemit = {
       sjcl.codec.base58Check.fromBits(
         header,
         point.x,
-        sjcl.codec.steemit.keyChecksum
+        sjcl.codec.dpay.keyChecksum
       )
     );
   },
 
   deserializePublicKey: function(pubKey, net) {
-    net = net || sjcl.codec.steemit.MAINNET;
+    net = net || sjcl.codec.dpay.MAINNET;
     var CURVE = sjcl.ecc.curves.k256;
 
     if (pubKey.indexOf(net.pubPrefix) !== 0) {
@@ -185,7 +185,7 @@ sjcl.codec.steemit = {
 
     var payload = sjcl.codec.base58Check.toBits(
       pubKey.slice(3),
-      sjcl.codec.steemit.keyChecksum
+      sjcl.codec.dpay.keyChecksum
     );
     var headerByte = sjcl.bitArray.extract(payload, 0, 8);
     var isOdd = headerByte == 0x3;
@@ -200,18 +200,18 @@ sjcl.codec.steemit = {
 
     var xBits = sjcl.bitArray.bitSlice(payload, 8);
     var x = sjcl.bn.fromBits(xBits);
-    var y = sjcl.codec.steemit._yFromX(x, isOdd);
+    var y = sjcl.codec.dpay._yFromX(x, isOdd);
 
     return new sjcl.ecc.ecdsa.publicKey(CURVE, new sjcl.ecc.point(CURVE, x, y));
   },
 
   serializePrivateKey: function(key, net) {
-    net = net || sjcl.codec.steemit.MAINNET;
+    net = net || sjcl.codec.dpay.MAINNET;
     return sjcl.codec.base58Check.fromBits(net.privHeader, key.get());
   },
 
   deserializePrivateKey: function(wif, header) {
-    header = header || sjcl.codec.steemit.MAINNET.privHeader;
+    header = header || sjcl.codec.dpay.MAINNET.privHeader;
     var curve = sjcl.ecc.curves.k256;
     var payload = sjcl.codec.base58Check.toBits(wif);
     var headerByte = sjcl.bitArray.extract(payload, 0, 8);
@@ -230,7 +230,7 @@ sjcl.codec.steemit = {
 
   _yFromX: function(x, shouldBeOdd) {
     var CURVE = sjcl.ecc.curves.k256;
-    var PIDENT = sjcl.codec.steemit._getPident();
+    var PIDENT = sjcl.codec.dpay._getPident();
 
     var alpha = x
       .powermod(3, CURVE.field.modulus)
@@ -249,14 +249,14 @@ sjcl.codec.steemit = {
   },
 
   _getPident: function() {
-    if (!sjcl.codec.steemit.PIDENT) {
-      sjcl.codec.steemit.PIDENT = sjcl.ecc.curves.k256.field.modulus
+    if (!sjcl.codec.dpay.PIDENT) {
+      sjcl.codec.dpay.PIDENT = sjcl.ecc.curves.k256.field.modulus
         .add(1)
         .normalize()
         .halveM()
         .halveM()
         .normalize();
     }
-    return sjcl.codec.steemit.PIDENT;
+    return sjcl.codec.dpay.PIDENT;
   }
 };

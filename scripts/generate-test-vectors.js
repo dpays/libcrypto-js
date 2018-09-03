@@ -23,7 +23,7 @@ while (fixtures.length < 2) {
 
 /* eslint-disable no-console */
 console.log(
-  'sjcl.test.vector.steemitsig = ' +
+  'sjcl.test.vector.dpaysig = ' +
     JSON.stringify(fixtures, undefined, 2) +
     ';'
 );
@@ -31,8 +31,8 @@ console.log(
 
 function generateFixture(keys) {
   var fixture = {
-    secretKey: sjcl.codec.steemit.serializeSecretKey(keys.sec),
-    publicKey: sjcl.codec.steemit.serializePublicKey(keys.pub),
+    secretKey: sjcl.codec.dpay.serializeSecretKey(keys.sec),
+    publicKey: sjcl.codec.dpay.serializePublicKey(keys.pub),
     signatures: []
   };
 

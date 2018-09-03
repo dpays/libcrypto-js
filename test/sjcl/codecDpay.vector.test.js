@@ -1,7 +1,7 @@
-sjcl.test.vector.steemitsig = [
+sjcl.test.vector.dpaysig = [
   {
     "secretKey": "5JbZ2sNJd2iJ3no6xQha2q9EeguPd6q4wsHdKjmjFyozGYusFtb",
-    "publicKey": "STM8g7Shaa7qnkmk1Bs7JRQFqHtb9jHHXXeU9J66RytEDKHUPKebt",
+    "publicKey": "DWB8g7Shaa7qnkmk1Bs7JRQFqHtb9jHHXXeU9J66RytEDKHUPKebt",
     "signatures": [
       {
         "k": "0xfffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364140",
@@ -32,7 +32,7 @@ sjcl.test.vector.steemitsig = [
   },
   {
     "secretKey": "5K4TXCD7UVqvVgqwLLaEoTugn7WJt9FKNHFAhG7LhkwXRQiMYFa",
-    "publicKey": "STM6KMdY1G2Jb4mAN4dwfw6g19jRJ75LmjnfmZBFNWaVsC6MH9xqp",
+    "publicKey": "DWB6KMdY1G2Jb4mAN4dwfw6g19jRJ75LmjnfmZBFNWaVsC6MH9xqp",
     "signatures": [
       {
         "k": "0xfffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364140",
