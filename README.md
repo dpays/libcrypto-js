@@ -1,5 +1,5 @@
 
-**@dpay/libcrypto**
+**dpay-libcrypto**
 =========
 
 A small vendoring wrapper for [sjcl](http://bitwiseshiftleft.github.io/sjcl/) with support for
@@ -12,13 +12,13 @@ is excluded from your builds.
 
 Otherwise, just
 ```sh
-$ yarn install @dpay/libcrypto
+$ yarn install dpay-libcrypto
 ```
 
 ## API
 
 ```
-> crypto = require('@dpay/libcrypto');
+> crypto = require('dpay-libcrypto');
 ```
 
 ### crypto.sha256(data)
@@ -103,18 +103,18 @@ Given a dPay account name and password, regenerates the derived `owner`, `postin
 
 ## Requirements
 
-**@dpay/libcrypto** is written in Javascript as specified by
+**dpay-libcrypto** is written in Javascript as specified by
 [ECMA-262, version 5.1](https://www.ecma-international.org/ecma-262/5.1/).
 Other than its vendored copy of sjcl, it has no dependencies and never will.
 
-**@dpay/libcrypto** explicitly supports the following environments without polyfills:
+**dpay-libcrypto** explicitly supports the following environments without polyfills:
 - [Node.js](https://nodejs.com) versions 4 and up
 - Microsoft Edge (all versions)
 - Safari for macOS versions 7.1+
 - Safari for iOS versions 8+
 - Firefox, Chrome, and Opera versions 30+
 
-**@dpay/libcrypto** explicitly does not support the following environments:
+**dpay-libcrypto** explicitly does not support the following environments:
 - Opera Mini
 - Android Browser (i.e., the non-Chromium versions)
 - Microsoft Internet Explorer versions <10

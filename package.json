@@ -1,5 +1,5 @@
 {
-  "name": "@dpay/libcrypto",
+  "name": "dpay-libcrypto",
   "version": "0.1.1",
   "description": "Common javascript cryptographic utilities. Based on sjcl.",
   "main": "lib/crypto.js",
